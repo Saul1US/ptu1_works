@@ -12,6 +12,16 @@ class WindowMain:
         self.button2.grid(row=2, column=1)
         self.button3.grid(row=3, column=1)
 
+        meniu1 = Menu(self.master)
+        self.master.config(menu=meniu1)
+        submeniu = Menu(meniu1, tearoff=False)
+        meniu1.add_cascade(label="Lists", menu=submeniu)
+        submeniu.add_command(label="Unit List", command=self.unit_list_window)
+        submeniu.add_command(label="Product List", command=self.product_list_window)
+        submeniu.add_command(label="Order List", command=self.order_list_window)
+        submeniu.add_command(label="Stock List", command=self.stock_list_window)
+
+
     def new_window1(self):
         self.newWindow = Toplevel(self.master)
         self.app = WindowUnit(self.newWindow)
@@ -23,6 +33,51 @@ class WindowMain:
     def new_window3(self):
         self.newWindow = Toplevel(self.master)
         self.app = WindowOrder(self.newWindow)
+
+    def unit_list_window(self):
+        self.unit_window = Toplevel(self.master)
+        self.unit_window.geometry("300x200")
+        self.scrollbar1 = Scrollbar(self.unit_window)
+        self.listbox1 = Listbox(self.unit_window, width=30, yscrollcommand=self.scrollbar1.set)
+        self.scrollbar1.config(command=self.listbox1.yview)
+        self.list1 = get_unit_list()
+        self.listbox1.insert(END, *self.list1)
+        self.listbox1.pack(side=LEFT)
+        self.scrollbar1.pack(side=RIGHT, fill=Y)
+
+    def product_list_window(self):
+        self.product_window = Toplevel(self.master)
+        self.product_window.geometry("300x200")
+        self.scrollbar1 = Scrollbar(self.product_window)
+        self.listbox1 = Listbox(self.product_window, width=30, yscrollcommand=self.scrollbar1.set)
+        self.scrollbar1.config(command=self.listbox1.yview)
+        self.list1 = get_product_list()
+        self.listbox1.insert(END, *self.list1)
+        self.listbox1.pack(side=LEFT)
+        self.scrollbar1.pack(side=RIGHT, fill=Y)
+
+    def order_list_window(self):
+        self.order_window = Toplevel(self.master)
+        self.order_window.geometry("400x300")
+        self.scrollbar1 = Scrollbar(self.order_window)
+        self.listbox1 = Listbox(self.order_window, width=50, yscrollcommand=self.scrollbar1.set)
+        self.scrollbar1.config(command=self.listbox1.yview)
+        self.list1 = get_order_list()
+        self.listbox1.insert(END, *self.list1)
+        self.listbox1.pack(side=LEFT)
+        self.scrollbar1.pack(side=RIGHT, fill=Y)
+
+    def stock_list_window(self):
+        self.stock_window = Toplevel(self.master)
+        self.stock_window.geometry("400x300")
+        self.scrollbar1 = Scrollbar(self.stock_window)
+        self.listbox1 = Listbox(self.stock_window, width=50, yscrollcommand=self.scrollbar1.set)
+        self.scrollbar1.config(command=self.listbox1.yview)
+        self.list1 = get_stock_list()
+        self.listbox1.insert(END, *self.list1)
+        self.listbox1.pack(side=LEFT)
+        self.scrollbar1.pack(side=RIGHT, fill=Y)
+
 
 class WindowUnit:
     def __init__(self, master):
@@ -49,6 +104,8 @@ class WindowProduct:
         self.choice = StringVar()
         self.choice.set("select unit")
         self.drop = OptionMenu(self.master, self.choice, *self.unit_drop)
+        # self.choice.bind("<Button-1>", lambda event: self.choice.get())
+        # print(self.drop)
         self.drop.grid(row=2, column=1)
         self.unit.grid(row=2, column=0)
         self.product_name.grid(row=0, column=0, sticky=E)
@@ -56,11 +113,15 @@ class WindowProduct:
         self.prod_entry_field.grid(row=0, column=1)
         self.qty_entry_field.grid(row=1, column=1)
         self.enter_button.grid(row=3, column=1)
+    
+    # def display_selected(self, choice1):
+    #     self.choice1 = self.choise.get()
+    #     print(self.choice1)
 
 class WindowOrder:
     def __init__(self, master):
         self.master = master
-        self.order_date = Label(self.master, text="Order Date")
+        self.order_date = Label(self.master, text="Order Date YY-MM-DD")
         self.product = Label(self.master, text="Product")
         self.unit = Label(self.master, text="Unit")
         self.expiry_date = Label(self.master, text="Expiry Date YY-MM-DD")

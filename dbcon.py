@@ -12,12 +12,12 @@ def add_unit(unit_name):
     session.commit()
 
 def add_product(product_name, min_qty, unit_id):
-    product = Product(product_name, min_qty, unit_id)
+    product = Product(product_name, min_qty, unit_id[0])
     session.add(product)
     session.commit()
 
 def add_order(order_date, product_id, unit_id, expiry_date):
-    order = Order(order_date, product_id, unit_id, expiry_date)
+    order = Order(order_date, product_id[0], unit_id[0], expiry_date)
     session.add(order)
     session.commit()
 
