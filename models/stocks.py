@@ -8,8 +8,11 @@ Base = declarative_base()
 
 class Unit(Base):
     __tablename__ = "unit"
-    id = Column(Integer, primary_key=True, autoincrement=True)
-    unit_name = Column("Unit Name", String)
+    id = Column(Integer, primary_key=True)
+    unit_name = Column("unit_name", String)
+
+    def __init__ (self, unit_name):
+        self.unit_name = unit_name
 
     def __repr__(self):
         return f"{self.id}: {self.unit_name}"
@@ -17,10 +20,14 @@ class Unit(Base):
 class Product(Base):
     __tablename__ = "product"
     id = Column(Integer, primary_key=True, autoincrement=True)
-    product_name = Column("Product Name", String)
-    min_qty = Column("Minumum Quantity", Float)
+    product_name = Column("product_name", String)
+    min_qty = Column("minumum_quantity", Float)
     unit_id = Column(Integer, ForeignKey("unit.id"))
     unit = relationship("Unit")
+
+    def __init__ (self, product_name, min_qty):
+        self.product_name = product_name
+        self.min_qty = min_qty
 
     def __repr__(self):
         return f"{self.id}: {self.product_name}, {self.min_qty}, {self.unit}"
@@ -28,12 +35,16 @@ class Product(Base):
 class Order(Base):
     __tablename__ = "orders"
     id = Column(Integer, primary_key=True, autoincrement=True)
-    order_date = Column("Order Date", Date)
+    order_date = Column("order_date", Date)
     product_id = Column(Integer, ForeignKey("product.id"))
     product = relationship("Product")
     unit_id = Column(Integer, ForeignKey("unit.id"))
     unit = relationship("Unit")
-    expiry_date = Column("Expiry Date", Date)
+    expiry_date = Column("expiry_date", Date)
+
+    def __init__ (self, order_date, expiry_date):
+        self.order_date = order_date
+        self.expiry_date = expiry_date
     
     def __repr__(self):
         return f"{self.id}: {self.order_date}, {self.product}, {self.unit}, {self.expiry_date}"
@@ -45,7 +56,7 @@ class Stock(Base):
     order = relationship("Order")
     product_id = Column(Integer, ForeignKey("product.id"))
     product = relationship("Product")
-    stock_qty = Column("Stock Quantity", Float)
+    stock_qty = Column("stock_quantity", Float)
     unit_id = Column(Integer, ForeignKey("unit.id"))
     unit = relationship("Unit")
 
