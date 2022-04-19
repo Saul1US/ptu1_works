@@ -25,9 +25,10 @@ class Product(Base):
     unit_id = Column(Integer, ForeignKey("unit.id"))
     unit = relationship("Unit")
 
-    def __init__ (self, product_name, min_qty):
+    def __init__ (self, product_name, min_qty, unit_id):
         self.product_name = product_name
         self.min_qty = min_qty
+        self.unit_id = unit_id
 
     def __repr__(self):
         return f"{self.id}: {self.product_name}, {self.min_qty}, {self.unit}"
@@ -42,8 +43,10 @@ class Order(Base):
     unit = relationship("Unit")
     expiry_date = Column("expiry_date", Date)
 
-    def __init__ (self, order_date, expiry_date):
+    def __init__ (self, order_date, product_id, unit_id, expiry_date):
         self.order_date = order_date
+        self.product_id = product_id
+        self.unit_id = unit_id
         self.expiry_date = expiry_date
     
     def __repr__(self):
