@@ -21,7 +21,6 @@ class WindowMain:
         submeniu.add_command(label="Order List", command=self.order_list_window)
         submeniu.add_command(label="Stock List", command=self.stock_list_window)
 
-
     def new_window1(self):
         self.newWindow = Toplevel(self.master)
         self.app = WindowUnit(self.newWindow)
@@ -104,8 +103,6 @@ class WindowProduct:
         self.choice = StringVar()
         self.choice.set("select unit")
         self.drop = OptionMenu(self.master, self.choice, *self.unit_drop)
-        # self.choice.bind("<Button-1>", lambda event: self.choice.get())
-        # print(self.drop)
         self.drop.grid(row=2, column=1)
         self.unit.grid(row=2, column=0)
         self.product_name.grid(row=0, column=0, sticky=E)
@@ -114,9 +111,6 @@ class WindowProduct:
         self.qty_entry_field.grid(row=1, column=1)
         self.enter_button.grid(row=3, column=1)
     
-    # def display_selected(self, choice1):
-    #     self.choice1 = self.choise.get()
-    #     print(self.choice1)
 
 class WindowOrder:
     def __init__(self, master):
@@ -146,16 +140,6 @@ class WindowOrder:
         self.order_date_field.grid(row=0, column=1)
         self.expiry_date_field.grid(row=3, column=1)
         self.enter_button1.grid(row=4, column=1)
-
-
-    # def get_unit(self):
-    #     self.a = "kg"
-    #     return self.a
-        # unit_list = get_unit_list()
-        # for i in args:
-        # print(unit_list)
-    # get_unit()
-            
 
 
     def close_windows(self):

@@ -39,18 +39,20 @@ class Order(Base):
     order_date = Column("order_date", Date)
     product_id = Column(Integer, ForeignKey("product.id"))
     product = relationship("Product")
+    quantity = Column("quantity", Float)
     unit_id = Column(Integer, ForeignKey("unit.id"))
     unit = relationship("Unit")
     expiry_date = Column("expiry_date", Date)
 
-    def __init__ (self, order_date, product_id, unit_id, expiry_date):
+    def __init__ (self, order_date, product_id, quantity, unit_id, expiry_date):
         self.order_date = order_date
         self.product_id = product_id
+        self.quantity = quantity
         self.unit_id = unit_id
         self.expiry_date = expiry_date
     
     def __repr__(self):
-        return f"{self.id}: {self.order_date}, {self.product}, {self.unit}, {self.expiry_date}"
+        return f"{self.id}: {self.order_date}, {self.product}, {self.quantity}, {self.unit}, {self.expiry_date}"
 
 class Stock(Base):
     __tablename__ = "stock"
