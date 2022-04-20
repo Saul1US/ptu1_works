@@ -1,4 +1,4 @@
-from models.stocks import Unit, Product, Order, Stock, ShoppingList, Expiry
+from models.stocks import Unit, Product, Order, Stock
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 
@@ -16,10 +16,22 @@ def add_product(product_name, min_qty, unit_id):
     session.add(product)
     session.commit()
 
-def add_order(order_date, product_id, unit_id, expiry_date):
-    order = Order(order_date, product_id[0], unit_id[0], expiry_date)
+def add_order(order_date, product_id, quantity, unit_id, expiry_date):
+    order = Order(order_date, product_id[0], quantity, unit_id[0], expiry_date)
+    # stock = Stock(order_id, product_id[0], quantity, unit_id[0])
     session.add(order)
+    # session.add(stock)
     session.commit()
+
+def add_stock(product_id, stock_qty, unit_id):
+    stock = Stock(product_id[0], stock_qty, unit_id[0])
+    session.add(stock)
+    session.commit()
+
+# def add_stock(order_id, product_id, stock_qty, unit_id):
+#     stock = Stock(order_id, product_id, stock_qty, unit_id)
+#     session.add(stock)
+#     session.commit()
 
 def get_unit_list():
     print(session.query(Unit).all())
@@ -35,10 +47,10 @@ def get_order_list():
 def get_stock_list():
     return session.query(Stock).all()
 
-def get_shopping_list():
-    return session.query(ShoppingList).all()
+# def get_shopping_list():
+#     return session.query(ShoppingList).all()
 
-def get_expiry_list():
-    return session.query(Expiry).all()
+# def get_expiry_list():
+#     return session.query(Expiry).all()
 
 # print(get_product_list())

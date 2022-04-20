@@ -57,16 +57,21 @@ class Order(Base):
 class Stock(Base):
     __tablename__ = "stock"
     id = Column(Integer, primary_key=True, autoincrement=True)
-    order_id = Column(Integer, ForeignKey("orders.id"))
-    order = relationship("Order")
+    # order_id = Column(Integer, ForeignKey("orders.id"))
+    # order = relationship("Order")
     product_id = Column(Integer, ForeignKey("product.id"))
     product = relationship("Product")
-    stock_qty = Column("stock_quantity", Float)
+    stock_qty = Column("stock_qty", Integer)
     unit_id = Column(Integer, ForeignKey("unit.id"))
     unit = relationship("Unit")
 
+    def __init__ (self, product_id, stock_qty, unit_id):
+        self.product_id = product_id
+        self.stock_qty = stock_qty
+        self.unit_id = unit_id
+
     def __repr__(self):
-        return f"{self.id}: {self.order}, {self.product}, {self.unit}"
+        return f"{self.id}: {self.product}, {self.stock_qty}, {self.unit}"
 
 
 class ShoppingList(Base):

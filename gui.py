@@ -8,9 +8,11 @@ class WindowMain:
         self.button1 = Button(self.master, width=40, text="Enter Units", command=self.new_window1)
         self.button2 = Button(self.master, width=40, text="Enter Products", command=self.new_window2)
         self.button3 = Button(self.master, width=40, text="Enter Orders", command=self.new_window3)
+        self.button4 = Button(self.master, width=40, text="Take Stock", command=self.new_window4)
         self.button1.grid(row=1, column=1)
         self.button2.grid(row=2, column=1)
         self.button3.grid(row=3, column=1)
+        self.button4.grid(row=4, column=1)
 
         meniu1 = Menu(self.master)
         self.master.config(menu=meniu1)
@@ -32,6 +34,10 @@ class WindowMain:
     def new_window3(self):
         self.newWindow = Toplevel(self.master)
         self.app = WindowOrder(self.newWindow)
+
+    def new_window4(self):
+        self.newWindow = Toplevel(self.master)
+        self.app = WindowStock(self.newWindow)
 
     def unit_list_window(self):
         self.unit_window = Toplevel(self.master)
@@ -117,12 +123,15 @@ class WindowOrder:
         self.master = master
         self.order_date = Label(self.master, text="Order Date YY-MM-DD")
         self.product = Label(self.master, text="Product")
+        self.quantity = Label(self.master, text="Quantity")
         self.unit = Label(self.master, text="Unit")
         self.expiry_date = Label(self.master, text="Expiry Date YY-MM-DD")
         self.order_date_field = Entry(self.master)
+        self.quantity_field = Entry(self.master)
         self.expiry_date_field = Entry(self.master)
         self.enter_button1 = Button(self.master, text = 'Enter')
-        self.enter_button1.bind("<Button-1>", lambda event: add_order(datetime.strptime(self.order_date_field.get(), "%Y-%m-%d"), self.choice_product.get(), self.choice_unit.get(), datetime.strptime(self.expiry_date_field.get(), "%Y-%m-%d")))
+        self.enter_button1.bind("<Button-1>", lambda event: add_order(datetime.strptime(self.order_date_field.get(), "%Y-%m-%d"), self.choice_product.get(), self.quantity_field.get(), self.choice_unit.get(), datetime.strptime(self.expiry_date_field.get(), "%Y-%m-%d")))
+        self.enter_button1.bind("<Button-1>", lambda event: add_stock(self.choice_product.get(), self.quantity_field.get(), self.choice_unit.get()))
         self.product_drop = get_product_list()
         self.choice_product = StringVar()
         self.choice_product.set("select product")
@@ -132,14 +141,39 @@ class WindowOrder:
         self.choice_unit = StringVar()
         self.choice_unit.set("select unit")
         self.drop = OptionMenu(self.master, self.choice_unit, *self.unit_drop)
-        self.drop.grid(row=2, column=1)
+        self.drop.grid(row=3, column=1)
         self.order_date.grid(row=0, column=0)
         self.product.grid(row=1, column=0)
-        self.unit.grid(row=2, column=0)
-        self.expiry_date.grid(row=3, column=0)
+        self.quantity.grid(row=2, column=0)
+        self.unit.grid(row=3, column=0)
+        self.expiry_date.grid(row=4, column=0)
         self.order_date_field.grid(row=0, column=1)
-        self.expiry_date_field.grid(row=3, column=1)
-        self.enter_button1.grid(row=4, column=1)
+        self.quantity_field.grid(row=2, column=1)
+        self.expiry_date_field.grid(row=4, column=1)
+        self.enter_button1.grid(row=5, column=1)
+
+class WindowStock:
+    def __init__(self, master):
+        self.master = master
+        self.product_drop = get_product_list()
+        self.choice_product = StringVar()
+        self.choice_product.set("select product")
+        self.drop = OptionMenu(self.master, self.choice_product, *self.product_drop)
+        self.drop.grid(row=1, column=1)
+        self.unit_drop = get_unit_list()
+        self.choice_unit = StringVar()
+        self.choice_unit.set("select unit")
+        self.drop = OptionMenu(self.master, self.choice_unit, *self.unit_drop)
+        self.drop.grid(row=3, column=1)
+
+        self.enter_button = Button(self.master, text = 'Enter')
+        self.enter_button.bind("<Button-1>", lambda event: add_product(self.prod_entry_field.get(), self.qty_entry_field.get(), self.choice.get()))
+        self.unit.grid(row=2, column=0)
+        self.product_name.grid(row=0, column=0, sticky=E)
+        self.min_qty.grid(row=1, column=0, sticky=E)
+        self.prod_entry_field.grid(row=0, column=1)
+        self.qty_entry_field.grid(row=1, column=1)
+        self.enter_button.grid(row=3, column=1)
 
 
     def close_windows(self):
