@@ -79,6 +79,9 @@ class ShoppingList(Base):
     id = Column(Integer, primary_key=True, autoincrement=True)
     stock_id = Column(Integer, ForeignKey("stock.id"))
     stock = relationship("Stock")
+    
+    def __init__ (self, stock_id):
+        self.stock_id = stock_id
 
     def __repr__(self):
         return f"{self.stock}"

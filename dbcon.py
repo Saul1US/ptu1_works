@@ -1,4 +1,4 @@
-from models.stocks import Unit, Product, Order, Stock
+from models.stocks import Unit, Product, Order, Stock, ShoppingList
 from sqlalchemy import create_engine, select, MetaData, Table, and_
 from sqlalchemy.orm import sessionmaker
 
@@ -40,6 +40,12 @@ def update_stock(selected_id, newstock_qty):
     stock.stock_qty = newstock_qty
     session.commit()
 
+def update_shoping_list(stock_id):
+    print(stock_id)
+    order = ShoppingList(stock_id)
+    session.add(order)
+    session.commit()
+
 def get_unit_list():
     return session.query(Unit).all()
 
@@ -52,8 +58,8 @@ def get_order_list():
 def get_stock_list():
     return session.query(Stock).all()
 
-# def get_shopping_list():
-#     return session.query(ShoppingList).all()
+def get_shopping_list():
+    return session.query(ShoppingList).all()
 
 # def get_expiry_list():
 #     return session.query(Expiry).all()

@@ -22,6 +22,7 @@ class WindowMain:
         submeniu.add_command(label="Product List", command=self.product_list_window)
         submeniu.add_command(label="Order List", command=self.order_list_window)
         submeniu.add_command(label="Stock List", command=self.stock_list_window)
+        submeniu.add_command(label="Shopping List", command=self.shopping_list_window)
 
     def new_window1(self):
         self.newWindow = Toplevel(self.master)
@@ -83,6 +84,16 @@ class WindowMain:
         self.listbox1.pack(side=LEFT)
         self.scrollbar1.pack(side=RIGHT, fill=Y)
 
+    def shopping_list_window(self):
+        self.shop_list_window = Toplevel(self.master)
+        self.shop_list_window.geometry("400x300")
+        self.scrollbar1 = Scrollbar(self.shop_list_window)
+        self.listbox1 = Listbox(self.shop_list_window, width=50, yscrollcommand=self.scrollbar1.set)
+        self.scrollbar1.config(command=self.listbox1.yview)
+        self.list1 = get_shopping_list()
+        self.listbox1.insert(END, *self.list1)
+        self.listbox1.pack(side=LEFT)
+        self.scrollbar1.pack(side=RIGHT, fill=Y)
 
 class WindowUnit:
     def __init__(self, master):
@@ -121,11 +132,11 @@ class WindowProduct:
 class WindowOrder:
     def __init__(self, master):
         self.master = master
-        self.order_date = Label(self.master, text="Order Date YY-MM-DD")
+        self.order_date = Label(self.master, text="Order Date YYYY-MM-DD")
         self.product = Label(self.master, text="Product")
         self.quantity = Label(self.master, text="Quantity")
         self.unit = Label(self.master, text="Unit")
-        self.expiry_date = Label(self.master, text="Expiry Date YY-MM-DD")
+        self.expiry_date = Label(self.master, text="Expiry Date YYYY-MM-DD")
         self.order_date_field = Entry(self.master)
         self.quantity_field = Entry(self.master)
         self.expiry_date_field = Entry(self.master)
@@ -188,6 +199,11 @@ class WindowStock:
         self.left_qty = self.req_qty - self.used_qty
         self.req_id = session.query(Stock.id).where(Stock.product_id == self.selected_id).scalar()
         update_stock(self.req_id, self.left_qty)
+        self.min_qty = session.query(Product.min_qty).where(Product.id == self.selected_id).scalar()
+        if self.left_qty < self.min_qty:
+            update_shoping_list(self.req_id)
+            print(self.req_id)
+            
         
 def main():
     root = Tk()
