@@ -41,7 +41,6 @@ def update_stock(selected_id, newstock_qty):
     session.commit()
 
 def update_shoping_list(stock_id):
-    print(stock_id)
     order = ShoppingList(stock_id)
     session.add(order)
     session.commit()
@@ -63,5 +62,3 @@ def get_shopping_list():
 
 # def get_expiry_list():
 #     return session.query(Expiry).all()
-
-# print(get_product_list())

@@ -202,7 +202,6 @@ class WindowStock:
         self.min_qty = session.query(Product.min_qty).where(Product.id == self.selected_id).scalar()
         if self.left_qty < self.min_qty:
             update_shoping_list(self.req_id)
-            print(self.req_id)
             
         
 def main():
