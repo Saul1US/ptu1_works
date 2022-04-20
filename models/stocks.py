@@ -31,7 +31,7 @@ class Product(Base):
         self.unit_id = unit_id
 
     def __repr__(self):
-        return f"{self.id}: {self.product_name}, {self.min_qty}, {self.unit}"
+        return f"{self.id}: {self.product_name}"
 
 class Order(Base):
     __tablename__ = "orders"
@@ -71,7 +71,7 @@ class Stock(Base):
         self.unit_id = unit_id
 
     def __repr__(self):
-        return f"{self.id}: {self.product}, {self.stock_qty}, {self.unit}"
+        return f"{self.product}, {self.stock_qty}, {self.unit}"
 
 
 class ShoppingList(Base):
