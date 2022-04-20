@@ -135,13 +135,13 @@ class WindowOrder:
         self.product_drop = get_product_list()
         self.choice_product = StringVar()
         self.choice_product.set("select product")
-        self.drop = OptionMenu(self.master, self.choice_product, *self.product_drop)
-        self.drop.grid(row=1, column=1)
+        self.drop1 = OptionMenu(self.master, self.choice_product, *self.product_drop)
+        self.drop1.grid(row=1, column=1)
         self.unit_drop = get_unit_list()
         self.choice_unit = StringVar()
         self.choice_unit.set("select unit")
-        self.drop = OptionMenu(self.master, self.choice_unit, *self.unit_drop)
-        self.drop.grid(row=3, column=1)
+        self.drop2 = OptionMenu(self.master, self.choice_unit, *self.unit_drop)
+        self.drop2.grid(row=3, column=1)
         self.order_date.grid(row=0, column=0)
         self.product.grid(row=1, column=0)
         self.quantity.grid(row=2, column=0)
@@ -155,30 +155,37 @@ class WindowOrder:
 class WindowStock:
     def __init__(self, master):
         self.master = master
+        self.product = Label(self.master, text="Product")
+        self.unit = Label(self.master, text="Unit")
         self.product_drop = get_product_list()
         self.choice_product = StringVar()
         self.choice_product.set("select product")
-        self.drop = OptionMenu(self.master, self.choice_product, *self.product_drop)
-        self.drop.grid(row=1, column=1)
+        self.drop1 = OptionMenu(self.master, self.choice_product, *self.product_drop)
+        self.drop1.grid(row=0, column=1)
+        self.stock_qty = Label(self.master, text="Used Quantity")
+        self.qty_field = Entry(self.master)
         self.unit_drop = get_unit_list()
         self.choice_unit = StringVar()
         self.choice_unit.set("select unit")
-        self.drop = OptionMenu(self.master, self.choice_unit, *self.unit_drop)
-        self.drop.grid(row=3, column=1)
-
-        self.enter_button = Button(self.master, text = 'Enter')
-        self.enter_button.bind("<Button-1>", lambda event: add_product(self.prod_entry_field.get(), self.qty_entry_field.get(), self.choice.get()))
+        self.drop2 = OptionMenu(self.master, self.choice_unit, *self.unit_drop)
+        self.drop2.grid(row=2, column=1)
+        self.enter_button1 = Button(self.master, text = 'Enter')
+        self.enter_button1.bind("<Button-1>", lambda event: self.stock_op(self.choice_product.get(), self.qty_field.get()))
+        self.product.grid(row=0, column=0, sticky=E)
+        self.stock_qty.grid(row=1, column=0, sticky=E)
         self.unit.grid(row=2, column=0)
-        self.product_name.grid(row=0, column=0, sticky=E)
-        self.min_qty.grid(row=1, column=0, sticky=E)
-        self.prod_entry_field.grid(row=0, column=1)
-        self.qty_entry_field.grid(row=1, column=1)
-        self.enter_button.grid(row=3, column=1)
-
-
-    def close_windows(self):
-        self.master.destroy()
-
+        self.qty_field.grid(row=1, column=1)
+        self.enter_button1.grid(row=3, column=1)
+        
+    def stock_op(self, selected_prod_id, used_qty):
+        self.selected_prod_id = selected_prod_id
+        self.used_qty = int(used_qty)
+        self.selected_id = self.selected_prod_id[0]
+        self.req_qty = session.query(Stock.stock_qty).where(Stock.product_id == self.selected_id).scalar()
+        self.left_qty = self.req_qty - self.used_qty
+        self.req_id = session.query(Stock.id).where(Stock.product_id == self.selected_id).scalar()
+        update_stock(self.req_id, self.left_qty)
+        
 def main():
     root = Tk()
     root.geometry("300x200")
