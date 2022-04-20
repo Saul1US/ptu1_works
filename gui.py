@@ -5,6 +5,7 @@ from datetime import datetime
 class WindowMain:
     def __init__(self, master):
         self.master = master
+        self.master.config(bg='PaleVioletRed3')
         self.button1 = Button(self.master, width=40, text="Enter Units", command=self.new_window1)
         self.button2 = Button(self.master, width=40, text="Enter Products", command=self.new_window2)
         self.button3 = Button(self.master, width=40, text="Enter Orders", command=self.new_window3)
@@ -43,6 +44,7 @@ class WindowMain:
     def unit_list_window(self):
         self.unit_window = Toplevel(self.master)
         self.unit_window.geometry("300x200")
+        self.unit_window.config(bg='#116562')
         self.scrollbar1 = Scrollbar(self.unit_window)
         self.listbox1 = Listbox(self.unit_window, width=30, yscrollcommand=self.scrollbar1.set)
         self.scrollbar1.config(command=self.listbox1.yview)
@@ -54,6 +56,7 @@ class WindowMain:
     def product_list_window(self):
         self.product_window = Toplevel(self.master)
         self.product_window.geometry("300x200")
+        self.product_window.config(bg='#116562')
         self.scrollbar1 = Scrollbar(self.product_window)
         self.listbox1 = Listbox(self.product_window, width=30, yscrollcommand=self.scrollbar1.set)
         self.scrollbar1.config(command=self.listbox1.yview)
@@ -65,6 +68,7 @@ class WindowMain:
     def order_list_window(self):
         self.order_window = Toplevel(self.master)
         self.order_window.geometry("400x300")
+        self.order_window.config(bg='#116562')
         self.scrollbar1 = Scrollbar(self.order_window)
         self.listbox1 = Listbox(self.order_window, width=50, yscrollcommand=self.scrollbar1.set)
         self.scrollbar1.config(command=self.listbox1.yview)
@@ -76,6 +80,7 @@ class WindowMain:
     def stock_list_window(self):
         self.stock_window = Toplevel(self.master)
         self.stock_window.geometry("400x300")
+        self.stock_window.config(bg='#116562')
         self.scrollbar1 = Scrollbar(self.stock_window)
         self.listbox1 = Listbox(self.stock_window, width=50, yscrollcommand=self.scrollbar1.set)
         self.scrollbar1.config(command=self.listbox1.yview)
@@ -87,6 +92,7 @@ class WindowMain:
     def shopping_list_window(self):
         self.shop_list_window = Toplevel(self.master)
         self.shop_list_window.geometry("400x300")
+        self.shop_list_window.config(bg='#116562')
         self.scrollbar1 = Scrollbar(self.shop_list_window)
         self.listbox1 = Listbox(self.shop_list_window, width=50, yscrollcommand=self.scrollbar1.set)
         self.scrollbar1.config(command=self.listbox1.yview)
