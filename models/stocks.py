@@ -61,7 +61,7 @@ class Stock(Base):
     # order = relationship("Order")
     product_id = Column(Integer, ForeignKey("product.id"))
     product = relationship("Product")
-    stock_qty = Column("stock_qty", Integer)
+    stock_qty = Column("stock_qty", Float)
     unit_id = Column(Integer, ForeignKey("unit.id"))
     unit = relationship("Unit")
 

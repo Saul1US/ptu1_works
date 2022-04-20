@@ -129,9 +129,10 @@ class WindowOrder:
         self.order_date_field = Entry(self.master)
         self.quantity_field = Entry(self.master)
         self.expiry_date_field = Entry(self.master)
-        self.enter_button1 = Button(self.master, text = 'Enter')
+        self.enter_button1 = Button(self.master, width=20, text = 'Enter Order')
+        self.enter_button2 = Button(self.master, width=20, text = 'Enter Stock')
         self.enter_button1.bind("<Button-1>", lambda event: add_order(datetime.strptime(self.order_date_field.get(), "%Y-%m-%d"), self.choice_product.get(), self.quantity_field.get(), self.choice_unit.get(), datetime.strptime(self.expiry_date_field.get(), "%Y-%m-%d")))
-        self.enter_button1.bind("<Button-1>", lambda event: add_stock(self.choice_product.get(), self.quantity_field.get(), self.choice_unit.get()))
+        self.enter_button2.bind("<Button-1>", lambda event: add_stock(self.choice_product.get(), self.quantity_field.get(), self.choice_unit.get()))
         self.product_drop = get_product_list()
         self.choice_product = StringVar()
         self.choice_product.set("select product")
@@ -151,6 +152,8 @@ class WindowOrder:
         self.quantity_field.grid(row=2, column=1)
         self.expiry_date_field.grid(row=4, column=1)
         self.enter_button1.grid(row=5, column=1)
+        self.enter_button2.grid(row=6, column=1)
+        
 
 class WindowStock:
     def __init__(self, master):
@@ -179,7 +182,7 @@ class WindowStock:
         
     def stock_op(self, selected_prod_id, used_qty):
         self.selected_prod_id = selected_prod_id
-        self.used_qty = int(used_qty)
+        self.used_qty = float(used_qty)
         self.selected_id = self.selected_prod_id[0]
         self.req_qty = session.query(Stock.stock_qty).where(Stock.product_id == self.selected_id).scalar()
         self.left_qty = self.req_qty - self.used_qty

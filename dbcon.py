@@ -28,7 +28,7 @@ def add_stock(product_id, stock_qty, unit_id):
     req_qty = session.query(Stock.stock_qty).where(Stock.product_id == selected_prod).scalar()
     stock = session.query(Stock).get(req_id)
     if stock != None:
-        newstock_qty = int(stock_qty) + int(req_qty)
+        newstock_qty = float(stock_qty) + float(req_qty)
         update_stock(req_id, newstock_qty)
     else:
         stock = Stock(product_id[0], stock_qty, unit_id[0])
